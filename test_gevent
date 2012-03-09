@@ -1,0 +1,33 @@
+#! /bin/bash -x
+
+appdir="/local/src/coroutines_present"
+basedir="/usr/local"
+py27="python"
+
+# Max iterations of each test
+MAX=3
+
+run()
+{
+PYTHON=$1
+PROG=$2
+HOST=$3
+LIMIT=$4
+iteration=1
+while [ "$iteration" -le "$LIMIT" ]
+do
+    echo -n "$PYTHON $PROG $HOST $iteration of $LIMIT"
+    time $PYTHON $PROG
+    iteration=$(( $iteration + 1 )) 
+    echo ""
+done
+#exit 0
+}
+
+# Start execution
+cd $appdir
+
+# bigfile_brute
+prog="./gevent_echo_client.py"
+host="192.168.1.4"
+run $py27 $prog $host $MAX

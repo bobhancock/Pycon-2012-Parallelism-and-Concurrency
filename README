@@ -1,0 +1,53 @@
+Increase system default settings
+--------------------------------
+Params that configure max open connections.
+Edit /etc/sysctl.conf and add
+    net.core.somaxconn=131072
+    fs.file-max=131072
+
+then on the command line:
+    sudo sysctl -p
+
+Edit /usr/include/linux/limits.h
+    NR_OPEN = 65536
+    
+Edit /etc/security/limits.conf
+    your_username  soft   nofile          65535
+    your_username hard    nofile          65535    
+
+limits.conf is read at login, so you should be able to logout and back in for the new
+limits to take effect. 
+
+As an alternative, you can run set_kernel.bash to set the kernel parameters at
+runtime with even larger values:
+
+    echo "10152 65535" > /proc/sys/net/ipv4/ip_local_port_range
+    sysctl -w fs.file-max=128000
+    sysctl -w net.ipv4.tcp_keepalive_time=300
+    sysctl -w net.core.somaxconn=250000
+    sysctl -w net.ipv4.tcp_max_syn_backlog=2500
+    sysctl -w net.core.netdev_max_backlog=2500
+    ulimit -n 10240
+    
+    
+Stop scaling frequency
+------------------------
+CPU frequency scaling enables the operating system to scale the CPU speed up or 
+down in order to save power. You need to stop this before running any time
+based tests.
+
+#! /bin/bash
+for i in /sys/devices/system/cpu/cpu[0-9]
+do
+    echo performance > $i/cpufreq/scaling_governor
+done
+
+Running Tests
+---------------
+Before runing any tests, chech settings.py and settings.bash and set the variables for
+your system.
+
+Bob Hancock
+hancock.robert@gmail.com
+
+March 2012
