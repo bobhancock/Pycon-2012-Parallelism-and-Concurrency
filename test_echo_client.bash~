@@ -1,0 +1,14 @@
+#!/usr/bin/env bash 
+
+# Collect only the real time of execution and
+# place in record: processes, real1,real2,real3
+if [ $# -lt 2 ] ;then
+	echo "Usage: $0  iterations"
+	exit 1
+else
+	iterations=$1
+fi
+
+. ./settings.bash
+
+

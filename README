@@ -42,12 +42,6 @@ do
     echo performance > $i/cpufreq/scaling_governor
 done
 
-Running Tests
----------------
-Before runing any tests, chech settings.py and settings.bash and set the variables for
-your system.
-
-Bob Hancock
-hancock.robert@gmail.com
-
-March 2012
+xferlogs
+----------
+You need to gunzip the xferlogs before running any tests.

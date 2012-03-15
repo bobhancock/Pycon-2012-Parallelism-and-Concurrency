@@ -1,6 +1,6 @@
 import os
 
-PACKAGE_PATH="/local/apps/pypackages"
+PACKAGE_PATH="pypackages"
 # File IO
 MAX_FILES = 100
 
@@ -54,9 +54,9 @@ SRC_DIR_FILE = "/home/rhancock"
 
 # Specify the canonical path since this is also read by
 # the Go programs.
-#BIG_FILE = "/home/rhancock/bigsmallfile.xferlog" #2 matches
-BIG_FILE = "/home/rhancock/bigmedfile.xferlog" # 12256 matches
-#BIG_FILE = "/home/rhancock/bigfile.xferlog" # 194,040 matches
+#BIG_FILE = "xferlog/bigsmallfile.xferlog" #2 matches
+BIG_FILE = "xferlog/bigmedfile.xferlog" # 12256 matches
+#BIG_FILE = "xferlog/bigfile.xferlog" # 194,040 matches
 
 # The number of chunks that file should be broken into.  One
 # chunk for each thread or process.

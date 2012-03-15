@@ -20,10 +20,10 @@ fi
 # to test.  test_suite is called for each in the
 # order of the array.
 if [ "$VERSION" -eq 2 ] ;then 
-	array=( bigfile_brute bigfile_brute_regex bigfile_pipeline \
-		bigfile_pipeline_2 bigfile_coroutines bigfile_chunks_threads \
-		bigfile_chunks_mp bigfile_chunks_futures_threadpool bigfile_chunks_gevent )
-
+	#array=( bigfile_brute bigfile_brute_regex bigfile_pipeline \
+#		bigfile_pipeline_2 bigfile_coroutines bigfile_chunks_threads \
+#		bigfile_chunks_mp bigfile_chunks_futures_threadpool bigfile_chunks_gevent )
+    array=( bigfile_chunks_gevent )
 fi
 
 if [ "$VERSION" -eq 3 ] ;then
@@ -31,9 +31,11 @@ if [ "$VERSION" -eq 3 ] ;then
     # We need python 3 specific versions of these since
     # generators do not have a next attibute in release 3.
     # bigfile_pipeline_2 bigfile_pipeline_coroutines
-    array=( bigfile_brute bigfile_brute_regex bigfile_pipeline \
-		bigfile_pipeline_2 bigfile_coroutines bigfile_chunks_threads \
-		bigfile_chunks_mp bigfile_chunks_futures_threadpool bigfile_chunks_gevent )
+    # array=( bigfile_brute bigfile_brute_regex bigfile_pipeline \
+	# 	bigfile_pipeline_2 bigfile_coroutines bigfile_chunks_threads \
+	# 	bigfile_chunks_mp bigfile_chunks_futures_threadpool bigfile_chunks_gevent )
+    array=(bigfile_chunks_mp_pipeline2)
+
 fi
 
 # File for timings.

@@ -1,0 +1,9 @@
+package main
+
+type Mt struct {
+	x int
+	y int
+}
+
+func (z *Mt) mod(i int) {
+	if 

@@ -1,0 +1,4 @@
+coroutine talk to do
+____________________
+How do coroutines/generators in 3.2
+

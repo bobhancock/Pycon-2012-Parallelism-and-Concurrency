@@ -1,0 +1,5 @@
+- python3 specific version of bigfile_pipeline_2 bigfile_pipeline_coroutines
+- Go version of bigfile_chunks
+- understand when to join a queue and when to use sentinels.  See Dave's book
+
+11880624

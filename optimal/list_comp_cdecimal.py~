@@ -1,0 +1,11 @@
+# Build a list of n 
+import time
+import cdecimal
+from random import random, randint
+
+n = 1000000000
+s = 0.0
+start = time.time()
+for x in xrange(1, m):
+    s += decimal.Decimal(random()) 
+

@@ -66,20 +66,20 @@ done
 cd $appdir
 
 if [ "$VERSION" -eq 2 ] ;then
-    c
-	CPROG="c/$prog-c"
-	if [ -f "$CPROG" ] ;then
-		compiledrun $CPROG "c" $SETTINGS $MAXITERATIONS
-	fi
+    # c
+	# CPROG="c/$prog-c"
+	# if [ -f "$CPROG" ] ;then
+	# 	compiledrun $CPROG "c" $SETTINGS $MAXITERATIONS
+	# fi
 
-    # go
-	GOPROG="go/$prog-go"
+    # # go
+	# GOPROG="go/$prog-go"
 
-	if [ -f "$GOPROG" ] ;then
-		compiledrun $GOPROG "go" $SETTINGS $MAXITERATIONS
-	fi
+	# if [ -f "$GOPROG" ] ;then
+	# 	compiledrun $GOPROG "go" $SETTINGS $MAXITERATIONS
+	# fi
 
-    #python 
+    # #python 
 	pyrun $py27 $prog.py $MAXITERATIONS
 	pyrun $pypy $prog.py $MAXITERATIONS
 	pyrun $stackless $prog.py $MAXITERATIONS

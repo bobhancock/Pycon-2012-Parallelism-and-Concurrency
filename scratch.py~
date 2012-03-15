@@ -1,0 +1,4 @@
+import time
+r=0
+start=time.time()
+for i in xrange(316000000):

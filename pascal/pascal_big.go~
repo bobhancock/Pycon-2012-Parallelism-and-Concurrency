@@ -1,0 +1,102 @@
+package main
+
+import (
+    "fmt"
+    "math"
+	"os"
+	"flag"
+	"log"
+	"strconv"
+	"big"
+	"runtime/pprof"
+)
+
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+var memprofile = flag.String("memprofile", "", "write memory profile to this file")
+
+// Reverse the slice
+func reverse(r []*big.Int) []*big.Int {
+	n, h := len(r), len(r)/2
+	for i := 0; i < h; i++ {
+       		r[i], r[n-1-i] = r[n-1-i], r[i]
+	}
+	return r
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		log.Fatalf("usage: %s iterations\n", os.Args[0])
+	}
+
+	flag.Parse()
+	//Setup  profiling
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+
+	if *memprofile != "" {
+        f, err := os.Create(*memprofile)
+        if err != nil {
+            log.Fatal(err)
+        }
+        pprof.WriteHeapProfile(f)
+        f.Close()
+        return
+    }
+
+	m, err := strconv.Atoi(os.Args[1]) //max iterations
+	if err != nil {
+		log.Fatalf("Could not convert %s to int.\n", os.Args[1])
+	}
+
+	one := big.NewInt(int64(1)) //returns pointer
+	prev := make([]*big.Int, 1)
+	prev[0] = one
+    //fmt.Println(prev)
+	pline := make([]*big.Int,1)
+
+    for row := 1; row < m; row++ {
+		curr := make([]*big.Int,1,row+1)
+		curr[0] = one
+
+		mid := int64(row/2) + 1 
+		var right int64 
+		if math.Fmod(float64(row), 2.0) == 0 {
+			right = mid -1
+		} else {
+			right = mid
+		}
+		
+//		fmt.Printf("row=%d mid=%d right=%d\n", row, mid, right)
+
+		for j := int64(1); j < mid; j++ {
+			x := big.NewInt(int64(0))
+			x.Add(prev[j - 1], prev[j])
+			curr = append(curr, x)
+		}
+//		fmt.Println("After for loop curr=", curr)
+		
+		s := make([]*big.Int, right)
+		r := curr[0:right]
+		copy(s,r)
+		rev := reverse(s)
+		curr = append(curr, rev...)
+		//fmt.Println(curr)
+
+		buf := make([]*big.Int, row+1)
+//		fmt.Println("prev=",prev)
+		copy(buf, curr)
+		prev = buf
+//		fmt.Println("After copy(prev, curr) prev=",prev)
+//		fmt.Println()
+//		if row == m -1 {
+//			copy(pline, prev[mid:mid+1])
+		}
+    }
+//	fmt.Println(pline)
+ }

@@ -1,0 +1,6 @@
+bigfile_brute_c : bigfile_brute.obj
+	tlink c0s bigfile_brute.obj, bigfile_brute_c,, cs /Lf:\bc\lib 
+main.obj : main.c
+	bcc –ms –c main.c 
+io.obj : io.c
+	bcc –ms –c io.c 

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/usr/local/python322/lib/python3.2/multiprocessing/queues.py", line 268, in _feed
+Traceback (most recent call last):
+  File "/usr/local/python322/lib/python3.2/multiprocessing/queues.py", line 268, in _feed
+    send(obj)
+    send(obj)
+_pickle.PicklingError: Can't pickle <class 'method'>: attribute lookup builtins.method failed
+_pickle.PicklingError: Can't pickle <class 'method'>: attribute lookup builtins.method failed
+Traceback (most recent call last):
+  File "/local/src/Pycon2012ParallelConcurrent/urlclient_futures_process.py", line 33, in main
+    for future in futures.as_completed(future_to_url, timeout=60):
+  File "/usr/local/python322/lib/python3.2/concurrent/futures/_base.py", line 211, in as_completed
+    len(pending), len(fs)))
+concurrent.futures._base.TimeoutError: 2 (of 520) futures unfinished
+url=http://www.weather.com e=2 (of 520) futures unfinished

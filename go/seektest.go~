@@ -1,0 +1,22 @@
+package main
+
+import (
+	"os"
+)
+
+func CreateTestFile(name string) {
+	rec := []byte("012345678Z\nabcdZfghij\nklmnopqrsZ\n")
+
+	fh, err := os.Create(tfile)
+	if err != nil {
+		log.Fatalf("testfile: %s\n", err)
+		os.Exit(1)
+	}
+	defer fh.Close()
+	fh.Write(rec)
+}
+
+fun main() {
+	CreateTestFile("/tmp/seektest")
+
+}
