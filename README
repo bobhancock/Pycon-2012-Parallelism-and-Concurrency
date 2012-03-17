@@ -18,7 +18,7 @@ Edit /etc/security/limits.conf
 limits.conf is read at login, so you should be able to logout and back in for the new
 limits to take effect. 
 
-As an alternative, you can run set_kernel.bash to set the kernel parameters at
+As an alternative, you can run set_limits.bash to set the kernel parameters at
 runtime with even larger values:
 
     echo "10152 65535" > /proc/sys/net/ipv4/ip_local_port_range
