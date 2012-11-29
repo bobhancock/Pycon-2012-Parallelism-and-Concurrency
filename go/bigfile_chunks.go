@@ -58,7 +58,7 @@ func main() {
 	for i := 0; i < num_chunks; i++ {
 		f, err := os.Open(bf)
 		if err != nil {
-			log.Fatalf("Could not open %s on iteration %d: %s\n", bf, i, err.String())
+			log.Fatalf(fmt.Sprintf("Could not open %s on iteration %d: %v\n", bf, i, err))
 		}
 		defer f.Close()
 		//FindString(f *os.File, start, chunksize int64, query string, done chan int) {

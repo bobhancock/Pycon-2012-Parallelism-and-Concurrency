@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"strconv"
 	"time"
-	"stats"
+//	"stats"
 )
 
 // Divisor to convert nanoseconds to seconds
@@ -88,26 +88,27 @@ func main() {
 		fmt.Println(v)
 	}
 
-	min := float64(min64(times)) * 1e-9
+/*	min := float64(min64(times)) * 1e-9
 	max :=  float64(max64(times)) * 1e-9
 	mean :=  float64(sum64(times)) / float64(len(times)) * 1e-9 
-
+*/
 	var ftimes []float64
 	for _, tv := range times {
 //		fmt.Printf("%d %f\n", tv, float64(tv))
 		ftimes = append(ftimes, float64(tv))
 	}
-	stddev := stats.StatsSampleStandardDeviation(ftimes) * 1e-9
+	//stddev := stats.StatsSampleStandardDeviation(ftimes) * 1e-9
 	
 	//for j := 0; j < len(times); j++ {
 	//	fmt.Println(times[j])
 	//}
-	fmt.Printf("%d,%d,%f,%f,%f,%f\n", max_connections, reps, min, max, mean, stddev)
+//	fmt.Printf("%d,%d,%f,%f,%f,%f\n", max_connections, reps, min, max, mean, stddev)
 }
  
 func echo(con net.Conn, line string, id int, wg *sync.WaitGroup, reps int ) {
 	for i := 0; i < reps; i++ {
-		a := time.Nanoseconds()
+		var d time.Duration
+		a := d.Nanoseconds()
 		_, err := con.Write([]byte(line))
 		if err != nil {
 			szw := fmt.Sprintf("Conn=%d-%d: Write error: %v\n", id, i, err)
@@ -138,7 +139,7 @@ func echo(con net.Conn, line string, id int, wg *sync.WaitGroup, reps int ) {
 			wg.Done()
 			return
 		}
-		times = append(times, (time.Nanoseconds() - a))
+		times = append(times, (d.Nanoseconds() - a))
 	}
 	//fmt.Printf("%d: echoed reps=%d\n", id, reps)
 	wg.Done()

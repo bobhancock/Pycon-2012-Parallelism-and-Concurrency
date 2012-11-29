@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
-	"stats" 
+//	"stats" 
 	"strconv"
 	"sync"
 	"time"
@@ -77,7 +77,8 @@ func process(req *request) {
 
 // Return the contents of a URL 
 func getURL(url string) string {
-	start := time.Nanoseconds()
+	var d time.Duration
+	start := d.Nanoseconds()
 	//var b[]byte
 	//fmt.Printf("Getting %s\n", url)
 	r, err := http.Get(url)
@@ -89,7 +90,7 @@ func getURL(url string) string {
 	_, _ = ioutil.ReadAll(r.Body)
 	r.Body.Close()
 
-	nsecs := (time.Nanoseconds() - start)
+	nsecs := (d.Nanoseconds() - start)
 	times = append(times, nsecs)
 	//r_time := float64(nsecs) / MS_DIVISOR
 	//return fmt.Sprintf("%s|%d|%f",url,len(string(b)),r_time)
@@ -154,10 +155,10 @@ func main() {
 		ftimes = append(ftimes, float64(tv))
 	}
 
-	fmt.Printf("Min: %f\n", float64(stats.StatsMin(ftimes))*1e-9)
+/*	fmt.Printf("Min: %f\n", float64(stats.StatsMin(ftimes))*1e-9)
 	fmt.Printf("Max: %f\n", float64(stats.StatsMax(ftimes))*1e-9)
 	fmt.Printf("Mean: %f\n", float64(stats.StatsSum(ftimes))/float64(len(times))*1e-9)
 
-	fmt.Printf("StdDev: %f\n", stats.StatsSampleStandardDeviation(ftimes)*1e-9)
+	fmt.Printf("StdDev: %f\n", stats.StatsSampleStandardDeviation(ftimes)*1e-9)*/
 	fmt.Println("Done!")
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"http"
+	"net/http"
 	"os"
 	"io/ioutil"
 	"time"
@@ -79,7 +79,8 @@ func process(req *request) {
 
 // Return the contents of a URL 
 func getURL(url string) string {
-	start := time.Nanoseconds()
+	var d time.Duration
+	start := d.Nanoseconds()
 	//var b[]byte
 	//fmt.Printf("Getting %s\n", url)
 	r, err := http.Get(url)
@@ -91,7 +92,7 @@ func getURL(url string) string {
 	_, _ = ioutil.ReadAll(r.Body)
 	r.Body.Close()
 
-	nsecs := (time.Nanoseconds() - start)
+	nsecs := (d.Nanoseconds() - start)
 	times = append(times, nsecs)
 	//r_time := float64(nsecs) / MS_DIVISOR
 	//return fmt.Sprintf("%s|%d|%f",url,len(string(b)),r_time)

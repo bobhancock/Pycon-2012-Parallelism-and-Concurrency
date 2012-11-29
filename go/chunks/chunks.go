@@ -21,7 +21,7 @@ func ChunkEnd(f *os.File, start int64) int64 {
 	readseek := io.ReadSeeker(f)
 	offset, err := readseek.Seek(start, 0)
 	if err != nil {
-		log.Fatalf("FindString: error on seek-%n", err.String())
+		log.Fatalf(fmt.Sprintf("FindString: error on seek-%v\n", err))
 		os.Exit(1)
 	}
 	if offset != start {
@@ -58,7 +58,7 @@ func SizeChunks(f *os.File,howmany int64) [][]int64 {
 	}
 	var chunk_size int64
 
-	fsize := fstat.Size
+	fsize := fstat.Size()
 	fmt.Printf("fsize=%d\n",fsize)
 	chunk_size = fsize/howmany
 	fmt.Printf("chunk_block=%d\n", chunk_size)
@@ -92,7 +92,7 @@ func FindString(f *os.File, start, chunksize int64, query string, done chan []in
 	readseek := io.ReadSeeker(f)
 	offset, err := readseek.Seek(start, 0)
 	if err != nil {
-		log.Fatalf("FindString: error on seek-%n", err.String())
+		log.Fatalf(fmt.Sprintf("FindString: error on seek-%V\n", err))
 		os.Exit(1)
 	}
 	if offset != start {
@@ -112,10 +112,10 @@ func FindString(f *os.File, start, chunksize int64, query string, done chan []in
 		line, isp, err := reader.ReadLine()
 
 		if err != nil {
-			if err == os.EOF {
+			if err == io.EOF {
 				break
 			} else {
-				log.Print("Error reading file.  err=%s", err.String())
+				log.Print(fmt.Sprintf("Error reading file.  err=%v\n", err))
 				break
 			}
 		}
@@ -135,7 +135,7 @@ func FindString(f *os.File, start, chunksize int64, query string, done chan []in
 
 		match, err := regexp.MatchString(query, l)
 		if err != nil {
-			log.Printf("FindString: regexp.MatchString-%s\n", err.String())
+			log.Printf(fmt.Sprintf("FindString: regexp.MatchString-%v\n", err))
 			continue
 		}
 		if match == true {

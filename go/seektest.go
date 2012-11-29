@@ -23,7 +23,7 @@ func CreateTestFile(name string) {
 func OpenTestFile(name string) *os.File {
 	f, err := os.Open(name)
     if f == nil {
-        fmt.Printf("can't open file; err=%s\n", err.String())
+        fmt.Printf("can't open file; err=%v\n", err)
         os.Exit(1)
     }		
 	if err != nil {
@@ -42,7 +42,7 @@ func main() {
 	start := int64(6)
 	offset, err := rs.Seek(start, 0)
 	if err != nil {
-		log.Fatalf("FindString: error on seek-%n", err.String())
+		log.Fatalf("FindString: error on seek-%v\n", err)
 		os.Exit(1)
 	}
 	if offset != start {

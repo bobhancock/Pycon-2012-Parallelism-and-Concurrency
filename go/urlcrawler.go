@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"http"
+	"net/http"
 	"os"
 	"io/ioutil"
 	"strconv"
@@ -93,7 +93,8 @@ func process(op opGet, req *request) {
 
 // Return the contents of a URL 
 func getURL(url string) string {
-	start := time.Nanoseconds()
+	var d time.Duration
+	start := d.Nanoseconds()
 	//var b[]byte
 	r, err := http.Get(url)
 	if err != nil {
@@ -104,7 +105,7 @@ func getURL(url string) string {
 	_, _ = ioutil.ReadAll(r.Body)
 	r.Body.Close()
 
-	nsecs := (time.Nanoseconds() - start)
+	nsecs := (d.Nanoseconds() - start)
 	//r_time := float64(nsecs) / MS_DIVISOR
 	//return fmt.Sprintf("%s|%d|%f",url,len(string(b)),r_time)
 	//return fmt.Sprintf("%s,%d,%d",url,len(string(b)),nsecs)
@@ -125,11 +126,12 @@ func main() {
 	const iterations = 10
 	n := len(urls)
 	service, quit := startServer(getURL, procLimit)
+	var d time.Duration
 
 	for i := 0; i < iterations; i++ {
 		reqs := make([]request, len(urls))
 
-		start_inside_loop := time.Nanoseconds()
+		start_inside_loop := d.Nanoseconds()
 		for i := 0; i < n; i++ {
 			req := &reqs[i]
 			req.url = urls[i]
@@ -139,7 +141,7 @@ func main() {
 		for i := n - 1; i >= 0; i-- { // doesn't matter what order
 			fmt.Println(<-reqs[i].replyc)
 		}
-		fmt.Printf("Inside_loop,%d\n", time.Nanoseconds()-start_inside_loop)
+		fmt.Printf("Inside_loop,%d\n", d.Nanoseconds()-start_inside_loop)
 	}
 	quit <- true //Shutdown server
 	fmt.Printf("urls:%d\n", n)

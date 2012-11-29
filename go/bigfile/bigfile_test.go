@@ -1,9 +1,9 @@
-package chunks
+package bigfile
 
 import (
 	"testing"
 	"os"
-	"io"
+//	"io"
 	"fmt"
 	"log"
 )
@@ -31,7 +31,7 @@ func CreateTestFile(name string) {
 func OpenTestFile(name string) *os.File {
 	f, err := os.Open(tfile)
     if f == nil {
-        fmt.Printf("can't open file; err=%s\n", err.String())
+        fmt.Printf(fmt.Sprintf("can't open file; err=%v\n", err))
         os.Exit(1)
     }		
 	if err != nil {
@@ -44,10 +44,9 @@ func OpenTestFile(name string) *os.File {
 func TestChunkEnd(t *testing.T) {
 	f := OpenTestFile(tfile)
 	defer f.Close()
-	r := io.ReaderAt(f)
-	offset := ChunkEnd(r, 0)
-	if offset != 10 {
-		t.Errorf("Expected offset of %d but got %d\n", 10, offset)
+	offset := ChunkEnd(f, 0)
+	if offset != 11 {
+		t.Errorf("Expected offset of %d but got %d\n", 11, offset)
 	}
 }
 
