@@ -17,8 +17,8 @@ var times []int64
 var errors []string
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("usage: echo-server-go gomaxprocs")
+	if len(os.Args) < 3 {
+		fmt.Println("usage: echo_server gomaxprocs port")
 		return
 	}
 	// Number of GOMAXPROCS
@@ -32,7 +32,9 @@ func main() {
 	}
 	runtime.GOMAXPROCS(max_procs)
 
-    ln, err := net.Listen("tcp", ":2020")
+    port := ":" + os.Args[2]
+    // ln, err := net.Listen("tcp", ":2020")
+    ln, err := net.Listen("tcp", port)
     if err != nil {
         log.Fatalf("listen error: %v", err)
     }
@@ -78,6 +80,7 @@ func serve(conn net.Conn) {
 			conn.Write([]byte("ACK\n"))
 		} else {
 			conn.Write([]byte(line))
+            fmt.Println(line)
 		}
 	//	times = append(times, time.Nanoseconds() - a)
     }

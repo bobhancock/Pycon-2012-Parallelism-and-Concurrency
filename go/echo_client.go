@@ -20,9 +20,10 @@ var times []int64
 var errors []string
 
 func main() {
+	usage := "echo_client maxprocs host port conns reps"
 	// prog maxprocs host connections reps
-	if len(os.Args) < 5 {
-		fmt.Println("maxproc targehost conns reps")
+	if len(os.Args) < 6 {
+		fmt.Println(usage)
 		return 
 	}
 	max_procs, err := strconv.Atoi(os.Args[1])
@@ -39,13 +40,13 @@ func main() {
 	host := os.Args[2]
 
 	// number of connections
-	max_connections, err := strconv.Atoi(os.Args[3])
+	max_connections, err := strconv.Atoi(os.Args[4])
 	if err != nil {
 		log.Fatalf("Max connections", err)
 		panic(err)
 	}
 	// reptitions for each connections
-	reps, err := strconv.Atoi(os.Args[4])
+	reps, err := strconv.Atoi(os.Args[5])
 	if err != nil {
 		log.Fatalf("reps conversion", err)
 		panic(err)
@@ -60,7 +61,7 @@ func main() {
 
 	// Open connections to host
 	var conns []net.Conn
-	thost := host+":2020"
+	thost := host+":"+os.Args[3]
 	for i := 0; i < max_connections; i++ {
 		c, err := net.Dial("tcp", thost)
 		if err != nil {
@@ -69,7 +70,7 @@ func main() {
 		}
 		defer c.Close()
 		conns = append(conns, c)
-		//fmt.Printf("Connection %d\n", i)
+		fmt.Printf("Connection %d\n", i)
 	}
 	//fmt.Printf("Opened %d connections\n", max_connections)
 
@@ -82,7 +83,7 @@ func main() {
 		go echo(con, line, count, wg, reps)
 		count += 1
 	}
-	//fmt.Printf("Launched %d goroutines.\n", count)
+	fmt.Printf("Launched %d goroutines.\n", count)
 	wg.Wait()
 	for _,v := range errors {
 		fmt.Println(v)
@@ -94,7 +95,7 @@ func main() {
 */
 	var ftimes []float64
 	for _, tv := range times {
-//		fmt.Printf("%d %f\n", tv, float64(tv))
+		fmt.Printf("%d %f\n", tv, float64(tv))
 		ftimes = append(ftimes, float64(tv))
 	}
 	//stddev := stats.StatsSampleStandardDeviation(ftimes) * 1e-9
@@ -110,6 +111,7 @@ func echo(con net.Conn, line string, id int, wg *sync.WaitGroup, reps int ) {
 		var d time.Duration
 		a := d.Nanoseconds()
 		_, err := con.Write([]byte(line))
+		
 		if err != nil {
 			szw := fmt.Sprintf("Conn=%d-%d: Write error: %v\n", id, i, err)
 			errors = append(errors, szw)
